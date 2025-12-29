@@ -1,0 +1,463 @@
+/* ======================================================
+   THEME VARIABLES (DYNAMIC – SET FROM App.jsx)
+====================================================== */
+:root {
+  --accent: #8b8cff;
+  --accent-soft: #b3b6ff;
+  --accent-strong: #5a5cff;
+  --accent-glow: rgba(139, 140, 255, 0.45);
+
+  --fg: #eaeaf0;
+  --muted: #b8b9c7;
+}
+
+/* ======================================================
+   RESET
+====================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  color: var(--fg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* ======================================================
+   GLOBAL ANIMATED BACKGROUND (THEME-DRIVEN)
+====================================================== */
+body {
+  background: linear-gradient(
+    120deg,
+    var(--accent-strong),
+    #0f1220,
+    var(--accent),
+    #1f3b73
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 26s ease infinite;
+  overflow: hidden;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ======================================================
+   VIEWPORT + FLOATING COLOR ORBS
+====================================================== */
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Color Orbs */
+.viewport::before,
+.viewport::after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.35;
+  animation: floatOrb 22s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.viewport::before {
+  background: var(--accent);
+  top: -160px;
+  left: -160px;
+}
+
+.viewport::after {
+  background: var(--accent-soft);
+  bottom: -160px;
+  right: -160px;
+  animation-delay: 6s;
+}
+
+@keyframes floatOrb {
+  from { transform: translateY(0); }
+  to { transform: translateY(100px); }
+}
+
+/* ======================================================
+   MAIN CARD / STAGE (GLASS + DEPTH)
+====================================================== */
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  max-height: 760px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(21, 25, 51, 0.9),
+    rgba(15, 18, 32, 0.9)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 22px;
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  overflow: hidden;
+}
+
+/* Ambient particles */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, var(--accent-soft) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.14;
+  animation: particleMove 40s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes particleMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 240px; }
+}
+
+/* Color bloom for photo step */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    var(--accent-glow),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 800ms ease;
+  pointer-events: none;
+}
+
+.stage.photo-active::after {
+  opacity: 1;
+}
+
+/* ======================================================
+   STEP / SCENE TRANSITION
+====================================================== */
+.step {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+  text-align: center;
+
+  animation: sceneEnter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes sceneEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ======================================================
+   TYPOGRAPHY
+====================================================== */
+h1 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.3px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+small {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ======================================================
+   BUTTONS (THEME-REACTIVE)
+====================================================== */
+button {
+  position: relative;
+  border: none;
+  outline: none;
+  background: var(--accent);
+  color: #0b0d1a;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 16px;
+  min-height: 44px;
+  cursor: pointer;
+
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    background 140ms ease;
+
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.45),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+button:active::after {
+  opacity: 1;
+}
+
+button:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* ======================================================
+   RESPONSIVE TWEAK (LAPTOP)
+====================================================== */
+@media (min-width: 768px) {
+  .stage {
+    max-height: 720px;
+  }
+}
+
+
+/* ==============================
+   FINAL CELEBRATION EFFECTS
+============================== */
+
+.stage.celebration {
+  overflow: hidden;
+}
+
+/* Birthday title glow */
+.birthday-title {
+  animation: titleGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 12px var(--accent-glow);
+  }
+  50% {
+    text-shadow: 0 0 28px var(--accent-glow);
+  }
+}
+
+/* Sequential text reveal */
+.message-sequence .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: revealText 0.8s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.4s; }
+.delay-2 { animation-delay: 1.2s; }
+.delay-3 { animation-delay: 2s; }
+.delay-4 { animation-delay: 2.8s; }
+
+@keyframes revealText {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Soft floating confetti / light particles */
+.confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.confetti span {
+  position: absolute;
+  bottom: -20px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  opacity: 0.35;
+  border-radius: 50%;
+  animation: floatUp 8s linear infinite;
+}
+
+.confetti span:nth-child(odd) {
+  background: var(--accent-soft);
+}
+
+.confetti span:nth-child(even) {
+  background: var(--accent-strong);
+}
+
+.confetti span {
+  left: calc(5% + 90% * var(--i));
+}
+
+.confetti span:nth-child(n) {
+  --i: calc(var(--n) * 0.05);
+}
+
+.confetti span:nth-child(1) { left: 10%; animation-duration: 7s; }
+.confetti span:nth-child(2) { left: 20%; animation-duration: 9s; }
+.confetti span:nth-child(3) { left: 30%; animation-duration: 6s; }
+.confetti span:nth-child(4) { left: 40%; animation-duration: 10s; }
+.confetti span:nth-child(5) { left: 50%; animation-duration: 8s; }
+.confetti span:nth-child(6) { left: 60%; animation-duration: 7s; }
+.confetti span:nth-child(7) { left: 70%; animation-duration: 9s; }
+.confetti span:nth-child(8) { left: 80%; animation-duration: 6s; }
+.confetti span:nth-child(9) { left: 90%; animation-duration: 10s; }
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.4;
+  }
+  to {
+    transform: translateY(-120vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+
+/* ================================
+   FINAL HAPPY BIRTHDAY CELEBRATION
+================================ */
+
+.stage.final-celebration {
+  overflow: hidden;
+}
+
+/* Rainbow glow title */
+.birthday-title.rainbow {
+  background: linear-gradient(
+    90deg,
+    #ff6b6b,
+    #feca57,
+    #1dd1a1,
+    #54a0ff,
+    #c77dff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowShift 6s linear infinite, titleFloat 3s ease-in-out infinite;
+}
+
+@keyframes rainbowShift {
+  from { background-position: 0% }
+  to { background-position: 200% }
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Colorful text blocks */
+.message-sequence.colorful p {
+  transition: transform 0.3s ease;
+}
+
+.message-sequence.colorful p:hover {
+  transform: scale(1.02);
+}
+
+/* Individual soft colors */
+.c1 { color: #ffd6a5; }
+.c2 { color: #fdffb6; }
+.c3 { color: #caffbf; }
+.c4 { color: #9bf6ff; }
+.c5 { color: #bdb2ff; }
+.c6 { color: #ffc6ff; }
+.c7 { color: #e0e0e0; }
+
+/* Floating light particles */
+.color-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.color-particles span {
+  position: absolute;
+  bottom: -20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: floatUp 10s linear infinite;
+}
+
+.color-particles span:nth-child(odd) {
+  background: #ffadad;
+}
+.color-particles span:nth-child(even) {
+  background: #cdb4db;
+}
+
+.color-particles span:nth-child(1) { left: 10%; animation-duration: 8s; }
+.color-particles span:nth-child(2) { left: 20%; animation-duration: 10s; }
+.color-particles span:nth-child(3) { left: 30%; animation-duration: 7s; }
+.color-particles span:nth-child(4) { left: 40%; animation-duration: 11s; }
+.color-particles span:nth-child(5) { left: 50%; animation-duration: 9s; }
+.color-particles span:nth-child(6) { left: 60%; animation-duration: 8s; }
+.color-particles span:nth-child(7) { left: 70%; animation-duration: 10s; }
+.color-particles span:nth-child(8) { left: 80%; animation-duration: 7s; }
+.color-particles span:nth-child(9) { left: 90%; animation-duration: 11s; }
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(-120vh) scale(1.2);
+    opacity: 0;
+  }
+}

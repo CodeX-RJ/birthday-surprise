@@ -1,0 +1,37 @@
+.cake-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cake-svg {
+  filter: drop-shadow(0 20px 34px rgba(0, 0, 0, 0.55));
+}
+
+/* Flame animation — NO SCALE, NO TRANSLATE */
+.flame {
+  animation: flameFlicker 1.6s ease-in-out infinite;
+}
+
+/* Flicker via opacity + subtle skew illusion */
+@keyframes flameFlicker {
+  0% {
+    opacity: 0.85;
+    filter: blur(0.3px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0.6px);
+  }
+  100% {
+    opacity: 0.85;
+    filter: blur(0.3px);
+  }
+}
+
+.cake-text {
+  font-size: 15px;
+  color: var(--muted);
+  text-align: center;
+}
