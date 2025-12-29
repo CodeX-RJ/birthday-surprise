@@ -67,7 +67,7 @@ export default function PhotoReveal({ onNext }) {
       </div>
 
     
-      <div style={{ marginTop: '140px' }}>
+      <div style={{ marginTop: '200px' }}>
         <p>
           Just how you appeared to me —
           <br />
